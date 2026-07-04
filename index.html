@@ -210,29 +210,40 @@
   .m-no{background:transparent;border:1px solid #d2c6a4;color:var(--muted);}
   .m-ok{background:var(--red);color:#fff;}
   .m-ok:active,.m-no:active{transform:translateY(1px);}
-  #cloud-login{background:linear-gradient(180deg,#e9bb55,var(--brass));color:#2a1d05;border:none;}
-  #cloud-login:active{transform:translateY(1px);}
-
-  /* 密碼提示框：依規格表的尺寸/間距（顏色沿用主題、不變） */
-  #cloudmodal .modal-box{width:min(520px,90vw);max-width:none;padding:36px 44px;border-radius:20px;}
-  #cloudmodal .modal-msg{text-align:center;font-size:22.4px;font-weight:600;color:#646b64;margin:0 0 22px;white-space:nowrap;}
-  #cloudmodal .cloud-login{margin:0 0 14px;}
-  .ime-hint{text-align:center;font-size:14px;color:var(--red);font-weight:600;margin:-6px 0 18px;}
-  #cloudmodal #cloud-pw{
-    flex:1;width:100%;text-align:center;font-size:17.6px;padding:12px 18px;
-    border:2px solid #d9cdab;border-radius:14px;background:#fff;color:var(--text);box-shadow:none;
+  /* 密碼框：結構/尺寸照班級收支那套 modal，顏色沿用計點檯 */
+  .modal-overlay{
+    display:none;position:fixed;inset:0;width:100%;height:100%;
+    background:rgba(0,0,0,.45);align-items:center;justify-content:center;z-index:1000;
   }
-  #cloudmodal #cloud-pw::placeholder{color:#b0a585;}
-  #cloudmodal #cloud-pw:focus{border-color:var(--brass);box-shadow:0 0 0 3px rgba(200,150,43,.22);}
-  #cloudmodal .modal-act{justify-content:center;gap:18px;}
-  #cloudmodal .modal-act button{font-size:18.4px;padding:11px 38px;border-radius:50px;border:2px solid transparent;transition:filter .12s,transform .06s;}
-  #cloudmodal #cloud-login{background:linear-gradient(180deg,#e9bb55,var(--brass));color:#2a1d05;border-color:transparent;}
-  #cloudmodal #cloud-login:hover{filter:brightness(1.06);}
-  #cloudmodal #cloud-close{background:transparent;border:2px solid #d2c6a4;color:var(--muted);}
-  #cloudmodal #cloud-close:hover{border-color:var(--brass);}
+  .modal-overlay.show{display:flex;}
+  .modal-content{
+    background:var(--paper);padding:36px 44px;border:3px solid var(--brass);
+    border-radius:20px;text-align:center;box-shadow:0 20px 55px rgba(0,0,0,.4);
+    width:min(520px,90vw);
+  }
+  .modal-title{font-size:1.4em;color:var(--text);margin:0 0 22px;}
+  .modal-content input{
+    display:block;width:100%;box-sizing:border-box;margin:0 0 24px;
+    padding:12px 18px;border:2px solid #d9cdab;border-radius:14px;
+    font-family:inherit;font-size:1.1em;outline:none;text-align:center;
+    background:#fff;color:var(--text);transition:box-shadow .2s,border-color .2s;
+  }
+  .modal-content input:focus{border-color:var(--brass);box-shadow:0 0 0 3px rgba(200,150,43,.22);}
+  .modal-content input::placeholder{color:#b0a585;}
+  #imeHint{margin:-14px 0 18px;font-size:.9em;color:var(--red);font-weight:600;}
+  .modal-actions{display:flex;justify-content:center;gap:18px;}
+  .modal-actions button{
+    padding:11px 38px;border-radius:50px;cursor:pointer;font-family:inherit;
+    font-size:1.15em;border:2px solid transparent;transition:filter .15s,background .15s,color .15s,transform .06s;
+  }
+  .modal-actions .btn-ok{background:linear-gradient(180deg,#e9bb55,var(--brass));color:#2a1d05;}
+  .modal-actions .btn-ok:hover{filter:brightness(1.06);}
+  .modal-actions .btn-ok:active{transform:translateY(1px);}
+  .modal-actions .btn-cancel{background:transparent;border-color:#d2c6a4;color:var(--muted);}
+  .modal-actions .btn-cancel:hover{border-color:var(--brass);}
   @media (max-width:640px){
-    #cloudmodal .modal-box{width:min(420px,88vw);padding:26px 22px;}
-    #cloudmodal .modal-msg{font-size:min(20.8px, calc((88vw - 56px) / 15));margin:0 0 18px;}
+    .modal-content{padding:26px 22px;width:min(420px,88vw);}
+    .modal-title{font-size:min(20.8px, calc((88vw - 56px) / 15));white-space:nowrap;}
   }
   /* 投影 + 登出：接在「新增學生」欄位後面，靠右、兩顆等高 */
   .addbar-tools{margin-left:auto;display:flex;gap:10px;align-items:center;}
@@ -275,8 +286,6 @@
   .cloudstat.wait{color:#f0d9a0;background:rgba(200,150,43,.2);}
   .cloud-help{font-size:13.5px;color:var(--muted);line-height:1.7;margin:-4px 0 12px;}
   .cloud-help b{color:var(--brass-deep);}
-  .cloud-login{display:flex;gap:10px;margin:0 0 16px;flex-wrap:wrap;}
-  .cloud-login .fld{flex:1;min-width:160px;background:#fff;color:var(--text);border:1px solid #d9cdab;}
 
   .hint{margin-top:14px;font-size:13px;color:#8e978b;line-height:1.7;}
 
@@ -366,7 +375,6 @@
     #touchBanner{font-size:20px;padding:10px 18px;top:12px;max-width:92vw;text-align:center;}
     /* 字級 ≥16px：避免 iOS 點輸入框時自動放大頁面 */
     .addline input.lab,.addline input.num,.cinit input{font-size:16px;}
-    .ime-hint{display:none;}     /* 中/英指示只在電腦顯示 */
     .display-mode .title h1{font-size:30px;}
     .display-mode .sb-remain{font-size:52px;}
   }
@@ -427,16 +435,14 @@
   </div>
 </div>
 
-<div class="modal" id="cloudmodal">
-  <div class="modal-box big">
-    <p class="modal-msg">請輸入老師專屬密碼才能編輯：</p>
-    <div class="cloud-login">
-      <input id="cloud-pw" class="fld" type="password" placeholder="密碼" autocomplete="current-password">
-    </div>
-    <p class="ime-hint" id="imeHint" style="display:none;">偵測到中文輸入法，密碼請切換為英數</p>
-    <div class="modal-act">
-      <button id="cloud-login">確定</button>
-      <button class="m-no" id="cloud-close">取消</button>
+<div id="inputModal" class="modal-overlay">
+  <div class="modal-content">
+    <p class="modal-title">請輸入老師專屬密碼才能編輯：</p>
+    <input type="password" id="passInput" placeholder="密碼" autocomplete="current-password">
+    <p id="imeHint" style="display:none;">偵測到中文輸入法，密碼請切換為英數</p>
+    <div class="modal-actions">
+      <button class="btn-ok" onclick="checkPass()">確定</button>
+      <button class="btn-cancel" onclick="closeModal()">取消</button>
     </div>
   </div>
 </div>
@@ -595,45 +601,50 @@
     const cfg=readCfgField();
     if(!cfg){await ask('尚未設定 Firebase（程式內的設定遺失）。');return;}
     const email=ACCOUNT_EMAIL;
-    const pw=document.getElementById('cloud-pw').value;
+    const pw=document.getElementById('passInput').value;
     if(!pw){await ask('請輸入密碼。');return;}
     if(!(await ensureFb(cfg)))return;
     setCloudStatus(isSignup?'註冊中…':'登入中…','wait');
     try{
       if(isSignup) await fb.authMod.createUserWithEmailAndPassword(fb.auth,email,pw);
       else         await fb.authMod.signInWithEmailAndPassword(fb.auth,email,pw);
-      document.getElementById('cloud-pw').value='';
-      closeCloud();
+      document.getElementById('passInput').value='';
+      closeModal();
     }catch(e){ await ask(authErrMsg(e)); setCloudStatus('請登入','wait'); }
   }
+  function checkPass(){ cloudAuth(false); }        // 供 HTML onclick 呼叫
   async function cloudLogout(){
     if(fb.auth&&fb.authMod){ try{await fb.authMod.signOut(fb.auth);}catch(e){} }
     fb.user=null; fb.connected=false;                 // 訂閱保留 → 仍可即時查看
     document.body.classList.remove('auth-in');
     setCloudStatus('查看模式（未登入）','');
-    closeCloud();
+    closeModal();
   }
-  function openCloud(){
-    document.getElementById('cloud-pw').value='';
+  function openModal(){
+    document.getElementById('passInput').value='';
     setImeHint(false);
-    document.getElementById('cloudmodal').classList.add('show');
-    setTimeout(()=>{try{document.getElementById('cloud-pw').focus();}catch(e){}},50);
+    document.getElementById('inputModal').classList.add('show');
+    setTimeout(()=>{try{document.getElementById('passInput').focus();}catch(e){}},50);
+  }
+  function closeModal(){
+    document.getElementById('inputModal').classList.remove('show');
+    document.getElementById('passInput').value='';
   }
   /* 密碼框：偵測到中文輸入就顯示提示（瀏覽器讀不到系統鍵盤語言，改由輸入內容判斷） */
   function setImeHint(isChinese){
     const h=document.getElementById('imeHint'); if(!h)return;
-    h.style.display = isChinese ? '' : 'none';
+    h.style.display = isChinese ? 'block' : 'none';
   }
   (function(){
-    const pw=document.getElementById('cloud-pw'); if(!pw)return;
+    const pw=document.getElementById('passInput'); if(!pw)return;
     const hasCJK=s=>/[\u3400-\u9fff\uff00-\uffef\u3000-\u303f]/.test(s);
     let composing=false;
     pw.addEventListener('compositionstart',()=>{composing=true; setImeHint(true);});
     pw.addEventListener('compositionend',()=>{composing=false; setImeHint(hasCJK(pw.value));});
     pw.addEventListener('input',()=>setImeHint(composing || hasCJK(pw.value)));
     pw.addEventListener('focus',()=>setImeHint(hasCJK(pw.value)));
+    pw.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.isComposing&&e.keyCode!==229)checkPass();});
   })();
-  const closeCloud=()=>document.getElementById('cloudmodal').classList.remove('show');
   async function autoCloud(){
     const emb=embeddedCfg();
     if(emb){ await ensureFb(emb); return; }
@@ -646,7 +657,7 @@
 
   /* ---------- 操作 ---------- */
   async function addStudent(){
-    if(!fb.user){ await ask('請先登入才能新增學生（連點左上角的槌子三下即可登入）。'); openCloud(); return; }
+    if(!fb.user){ await ask('請先登入才能新增學生（連點左上角的槌子三下即可登入）。'); openModal(); return; }
     const n=document.getElementById('s_name');
     const i=document.getElementById('s_init');
     const name=n.value.trim(); if(!name)return n.focus();
@@ -825,7 +836,7 @@
     const hit=e=>{
       if(e){e.preventDefault();}
       taps++; clearTimeout(timer); timer=setTimeout(()=>{taps=0;},800);
-      if(taps>=3){taps=0; clearTimeout(timer); openCloud();}
+      if(taps>=3){taps=0; clearTimeout(timer); openModal();}
     };
     if(window.PointerEvent){ el.addEventListener('pointerup',hit); }
     else { el.addEventListener('touchend',hit); el.addEventListener('click',hit); }
@@ -841,10 +852,7 @@
   document.getElementById('projBtn').addEventListener('click',()=>toggleDisplay());
   document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&isDisplay()) toggleDisplay(false); });
   document.getElementById('projBtn').textContent = isDisplay() ? '✕' : '🖥 投影模式';
-  document.getElementById('cloud-close').addEventListener('click',closeCloud);
-  document.getElementById('cloud-login').addEventListener('click',()=>cloudAuth(false));
   document.getElementById('logoutBtn').addEventListener('click',cloudLogout);
-  document.getElementById('cloud-pw').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.isComposing&&e.keyCode!==229)cloudAuth(false);});
 
   load().then(()=>{ render(); autoCloud(); });
 })();
