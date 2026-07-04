@@ -206,7 +206,7 @@
   .modal-box{background:var(--paper);color:var(--text);border-radius:16px;padding:22px 22px 16px;max-width:360px;width:100%;box-shadow:var(--shadow);border-top:4px solid var(--brass);}
   .modal-msg{margin:0 0 18px;font-size:17px;line-height:1.6;}
   .modal-act{display:flex;gap:10px;justify-content:flex-end;}
-  .modal-act button{font-family:inherit;cursor:pointer;border-radius:9px;padding:9px 18px;font-size:16px;border:none;}
+  .modal-act button{font-family:inherit;cursor:pointer;border-radius:50px;padding:9px 26px;font-size:16px;border:none;}
   .m-no{background:transparent;border:1px solid #d2c6a4;color:var(--muted);}
   .m-ok{background:var(--red);color:#fff;}
   .m-ok:active,.m-no:active{transform:translateY(1px);}
@@ -502,13 +502,15 @@
   const uid=()=>Math.random().toString(36).slice(2,9);
 
   /* 自訂確認框，回傳 Promise<boolean> */
-  function ask(msg){
+  function ask(msg,opts){
+    const alertOnly = opts && opts.alert;
     return new Promise(res=>{
       const m=document.getElementById('modal');
       document.getElementById('modal-msg').textContent=msg;
-      m.classList.add('show');
       const ok=document.getElementById('modal-ok'), no=document.getElementById('modal-no');
-      const done=v=>{m.classList.remove('show');ok.onclick=null;no.onclick=null;res(v);};
+      no.style.display = alertOnly ? 'none' : '';
+      m.classList.add('show');
+      const done=v=>{m.classList.remove('show');ok.onclick=null;no.onclick=null;no.style.display='';res(v);};
       ok.onclick=()=>done(true);
       no.onclick=()=>done(false);
     });
@@ -599,10 +601,10 @@
   }
   async function cloudAuth(isSignup){
     const cfg=readCfgField();
-    if(!cfg){await ask('尚未設定 Firebase（程式內的設定遺失）。');return;}
+    if(!cfg){await ask('尚未設定 Firebase（程式內的設定遺失）。',{alert:true});return;}
     const email=ACCOUNT_EMAIL;
     const pw=document.getElementById('passInput').value;
-    if(!pw){await ask('請輸入密碼。');return;}
+    if(!pw){await ask('請輸入密碼。',{alert:true});return;}
     if(!(await ensureFb(cfg)))return;
     setCloudStatus(isSignup?'註冊中…':'登入中…','wait');
     try{
@@ -610,7 +612,7 @@
       else         await fb.authMod.signInWithEmailAndPassword(fb.auth,email,pw);
       document.getElementById('passInput').value='';
       closeModal();
-    }catch(e){ await ask(authErrMsg(e)); setCloudStatus('請登入','wait'); }
+    }catch(e){ await ask(authErrMsg(e),{alert:true}); setCloudStatus('請登入','wait'); }
   }
   function checkPass(){ cloudAuth(false); }        // 供 HTML onclick 呼叫
   window.checkPass=checkPass;
@@ -659,7 +661,7 @@
 
   /* ---------- 操作 ---------- */
   async function addStudent(){
-    if(!fb.user){ await ask('請先登入才能新增學生（連點左上角的槌子三下即可登入）。'); openModal(); return; }
+    if(!fb.user){ await ask('請先登入才能新增學生（連點左上角的槌子三下即可登入）。',{alert:true}); openModal(); return; }
     const n=document.getElementById('s_name');
     const i=document.getElementById('s_init');
     const name=n.value.trim(); if(!name)return n.focus();
