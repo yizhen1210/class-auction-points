@@ -613,6 +613,7 @@
     }catch(e){ await ask(authErrMsg(e)); setCloudStatus('請登入','wait'); }
   }
   function checkPass(){ cloudAuth(false); }        // 供 HTML onclick 呼叫
+  window.checkPass=checkPass;
   async function cloudLogout(){
     if(fb.auth&&fb.authMod){ try{await fb.authMod.signOut(fb.auth);}catch(e){} }
     fb.user=null; fb.connected=false;                 // 訂閱保留 → 仍可即時查看
@@ -630,6 +631,7 @@
     document.getElementById('inputModal').classList.remove('show');
     document.getElementById('passInput').value='';
   }
+  window.closeModal=closeModal;
   /* 密碼框：偵測到中文輸入就顯示提示（瀏覽器讀不到系統鍵盤語言，改由輸入內容判斷） */
   function setImeHint(isChinese){
     const h=document.getElementById('imeHint'); if(!h)return;
