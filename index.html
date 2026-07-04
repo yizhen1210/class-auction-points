@@ -269,7 +269,7 @@
   body:not(.auth-in) .pitem .x,
   body:not(.auth-in) #settleBtn{display:none!important;}
   body:not(.auth-in) .cinit input{pointer-events:none;border-bottom:none;color:var(--muted);}
-  #modal{z-index:70;}                 /* 確認框永遠蓋在資料視窗之上 */
+  #modal{z-index:1100;}                 /* 確認框永遠蓋在密碼框與資料視窗之上 */
   .m-extra{background:transparent;border:1px solid var(--brass);color:var(--brass-deep);}
   .m-extra:active{transform:translateY(1px);}
   .modal-box.big{max-width:520px;}
@@ -861,5 +861,3 @@
 </script>
 </body>
 </html>
-
-
