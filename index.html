@@ -769,7 +769,7 @@
       const s=state.students.find(x=>x.id===lt.id);
       if(s){
         flashCard(lt.id);
-        if(isDisplay()) showTouchBanner(s.name, lt.delta, s.balance-pendTotal(s));
+        showTouchBanner(s.name, lt.delta, s.balance-pendTotal(s));   // 各模式都顯示橫幅
       }
     }
   }
@@ -777,6 +777,7 @@
     requestAnimationFrame(()=>{
       let sel; try{sel='[data-card="'+CSS.escape(id)+'"]';}catch(e){sel='[data-card="'+id+'"]';}
       const el=document.querySelector(sel); if(!el)return;
+      try{el.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){}   // 卡片在畫面外時捲入
       el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
     });
   }
