@@ -231,7 +231,7 @@
   }
   .modal-content input:focus{border-color:#b0a585;box-shadow:0 0 12px 3px rgba(200,150,43,0.5);}
   .modal-content input::placeholder{color:#d9cdab;}
-  #imeHint{margin:-14px 0 18px;font-size:.9em;color:var(--red);font-weight:600;}
+  #imeHint{margin:-14px 0 18px;font-size:.9em;color:var(--red);}
   .modal-actions{display:flex;justify-content:center;gap:18px;}
   .modal-actions button{
     padding:11px 38px;border-radius:50px;cursor:pointer;font-family:inherit;
@@ -631,12 +631,10 @@
   }
   (function(){
     const pw=document.getElementById('passInput'); if(!pw)return;
-    const hasCJK=s=>/[\u3400-\u9fff\uff00-\uffef\u3000-\u303f]/.test(s);
-    let composing=false;
-    pw.addEventListener('compositionstart',()=>{composing=true; setImeHint(true);});
-    pw.addEventListener('compositionend',()=>{composing=false; setImeHint(hasCJK(pw.value));});
-    pw.addEventListener('input',()=>setImeHint(composing || hasCJK(pw.value)));
-    pw.addEventListener('focus',()=>setImeHint(hasCJK(pw.value)));
+    const checkIME=()=>setImeHint(/[^\x00-\x7F]/.test(pw.value));
+    pw.addEventListener('compositionstart',()=>setImeHint(true));
+    pw.addEventListener('input',e=>{ if(e.isComposing){ setImeHint(true); } else { checkIME(); } });
+    pw.addEventListener('compositionend',checkIME);
     pw.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.isComposing&&e.keyCode!==229)checkPass();});
   })();
   async function autoCloud(){
