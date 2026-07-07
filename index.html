@@ -208,7 +208,7 @@
   .modal-msg{margin:0 0 18px;font-size:17px;line-height:1.6;}
   .modal-act{display:flex;gap:10px;justify-content:flex-end;}
   .modal-act button{font-family:inherit;cursor:pointer;border-radius:50px;padding:9px 26px;font-size:16px;border:none;}
-  .m-no{background:transparent;border:1px solid #d2c6a4;color:var(--muted);}
+  .m-no{background:transparent;border:1px solid #d2c6a4;color:var(--brass);}
   .m-ok{background:var(--red);color:#fff;}
   .m-ok:active,.m-no:active{transform:translateY(1px);}
   /* 密碼框：結構/尺寸照班級收支那套 modal，顏色沿用計點檯 */
@@ -272,22 +272,10 @@
   body:not(.auth-in) #settleBtn{display:none!important;}
   body:not(.auth-in) .cinit input{pointer-events:none;border-bottom:none;color:var(--muted);}
   #modal{z-index:1100;}                 /* 確認框永遠蓋在密碼框與資料視窗之上 */
-  .m-extra{background:transparent;border:1px solid var(--brass);color:var(--brass-deep);}
-  .m-extra:active{transform:translateY(1px);}
-  .modal-box.big{max-width:520px;}
-  .dm-text{
-    width:100%;height:200px;resize:vertical;box-sizing:border-box;
-    font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;line-height:1.5;
-    border:1px solid #d9cdab;border-radius:10px;padding:10px;background:#fff;
-    color:var(--text);outline:none;margin-bottom:16px;
-  }
-  .dm-text:focus{border-color:var(--brass);}
   .cloudstat{align-self:center;font-size:13px;color:#9aa399;padding:4px 10px;border-radius:999px;background:rgba(0,0,0,.18);}
   .cloudstat.ok{color:#bfe6cf;background:rgba(47,125,91,.22);}
   .cloudstat.err{color:#f2c2b8;background:rgba(181,64,47,.22);}
   .cloudstat.wait{color:#f0d9a0;background:rgba(200,150,43,.2);}
-  .cloud-help{font-size:13.5px;color:var(--muted);line-height:1.7;margin:-4px 0 12px;}
-  .cloud-help b{color:var(--brass-deep);}
 
   .hint{margin-top:14px;font-size:13px;color:#8e978b;line-height:1.7;}
 
