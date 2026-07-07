@@ -777,7 +777,7 @@
     requestAnimationFrame(()=>{
       let sel; try{sel='[data-card="'+CSS.escape(id)+'"]';}catch(e){sel='[data-card="'+id+'"]';}
       const el=document.querySelector(sel); if(!el)return;
-      try{el.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){}   // 卡片在畫面外時捲入
+      try{el.scrollIntoView({behavior:'smooth',block:'nearest'});}catch(e){}   // 卡片在畫面外時捲入（最小幅度）
       el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
     });
   }
